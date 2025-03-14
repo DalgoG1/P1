@@ -1,6 +1,8 @@
+
+// Autores: Nicolas Arango (202220342) y Mattia Riccardi (202321259)
 import java.util.Scanner;
 
-public class Algormar {
+public class problemaP1 {
 
     public static double minEnergiaAlgormar(int n, int j, int m, int[] pesos) {
         try {
@@ -27,10 +29,16 @@ public class Algormar {
                 }
             }
 
-            // Casos base y recursión
+            // Casos base y recursion
             for (int i = 1; i <= n; i++) {
                 for (int k = 1; k <= j; k++) {
                     for (int s = 0; s <= m; s++) {
+
+                        if (k == 0 || i == 0) {
+                            dp[i][k][s] = 0;
+                            continue;
+                        }
+
                         if (k > i) {
                             dp[i][k][s] = Double.POSITIVE_INFINITY;
                             continue;
@@ -41,6 +49,7 @@ public class Algormar {
                             for (int idx = 0; idx < k; idx++) {
                                 suma += pesos[idx];
                             }
+
                             dp[i][k][s] = suma;
                             continue;
                         }
@@ -54,10 +63,10 @@ public class Algormar {
                             continue;
                         }
 
-                        // Opción 1: No incluir el i-ésimo jugador
+                        // Opción 1: No incluir el i-esimo jugador
                         double option1 = dp[i - 1][k][s];
 
-                        // Opción 2: Incluir el i-ésimo jugador con swap
+                        // Opción 2: Incluir el i-esimo jugador con swap
                         double option2 = Double.POSITIVE_INFINITY;
                         int swapsNeeded = i - k;
                         if (s >= swapsNeeded) {
@@ -69,7 +78,7 @@ public class Algormar {
                 }
             }
 
-            // Encontrar el mínimo resultado
+            // Encontrar el minimo resultado
             double resultado = Double.POSITIVE_INFINITY;
             for (int s = 0; s <= m; s++) {
                 resultado = Math.min(resultado, dp[n][j][s]);
